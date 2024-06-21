@@ -1,13 +1,13 @@
 package sg.edu.np.mad.madpractical5;
 
-import android.content.Intent;
+//import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+//import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         dbHandler = new UserDBHandler(this, null, null, 1);
 
         TextView tvName = findViewById(R.id.tvName);
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             tvName.setText(user.getName());
             tvDescription.setText(user.getDescription());
             btnFollow.setText(user.isFollowed() ? "Unfollow" : "Follow");
-
             btnFollow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -55,12 +55,4 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "User data not found", Toast.LENGTH_LONG).show();
         }
     }
-    private User getUserFromDatabase() {
-        // Implement the logic to retrieve the user from the database or intent
-        // Example:
-        // int userId = getIntent().getIntExtra("USER_ID", -1);
-        // return dbHandler.getUserById(userId);
-        return new User("John Doe", "admin", 1, true); // Replace this with actual implementation
-    }
-
 }

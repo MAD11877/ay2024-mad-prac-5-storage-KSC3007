@@ -28,8 +28,8 @@ public class ListActivity extends AppCompatActivity {
         });
 
         dbHandler = new UserDBHandler(this, null, null, 1);
-        myUserList = new ArrayList<>(); // Initialize myUserList
 
+        myUserList = new ArrayList<>(); // Initialize myUserList
         // Generate and populate database if empty
         if (dbHandler.getUsers().isEmpty()) {
             generateUserData();
