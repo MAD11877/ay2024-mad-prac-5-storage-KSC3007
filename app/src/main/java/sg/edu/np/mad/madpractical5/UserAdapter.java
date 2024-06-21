@@ -1,8 +1,6 @@
 package sg.edu.np.mad.madpractical5;
 
 import android.content.Context;
-import androidx.appcompat.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
     Context context;
-    private List<sg.edu.np.mad.madpractical5.User> myUserList;
+    private List<User> myUserList;
 
-    public UserAdapter(Context context, List<sg.edu.np.mad.madpractical5.User> users) {  // Accept context
+    public UserAdapter(Context context, List<User> users) {
         this.context = context;
         myUserList = users;
     }
@@ -34,7 +33,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.name.setText(myUserList.get(position).getName());
         holder.description.setText(myUserList.get(position).getDescription());
 
-        // Show or hide the large image based on the last digit of the name
         if (myUserList.get(position).getName().endsWith("7")) {
             holder.largeImage.setVisibility(View.VISIBLE);
         } else {
@@ -46,7 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             builder.setTitle("Profile");
             builder.setMessage(myUserList.get(position).getName())
                     .setPositiveButton("View", (dialog, id) -> {
-                        Intent intent = new Intent(v.getContext(), sg.edu.np.mad.madpractical5.MainActivity.class);
+                        Intent intent = new Intent(v.getContext(), MainActivity.class);
                         intent.putExtra("USER", myUserList.get(position));
                         v.getContext().startActivity(intent);
                     })

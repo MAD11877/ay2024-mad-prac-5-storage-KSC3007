@@ -14,16 +14,20 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+    private UserDBHandler dbHandler;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        dbHandler = new UserDBHandler(this, null, null, 1);
 
         TextView tvName = findViewById(R.id.tvName);
         TextView tvDescription = findViewById(R.id.tvDescription);
@@ -35,16 +39,28 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             tvName.setText(user.getName());
             tvDescription.setText(user.getDescription());
-            btnFollow.setText(user.followed ? "Unfollow" : "Follow");
-        }
+            btnFollow.setText(user.isFollowed() ? "Unfollow" : "Follow");
 
-        btnFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                user.followed = !user.followed;
-                btnFollow.setText(user.followed ? "Unfollow" : "Follow");
-                Toast.makeText(MainActivity.this, user.followed ? "Followed" : "Unfollowed", Toast.LENGTH_SHORT).show();
-            }
-        });
+            btnFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    user.setFollowed(!user.isFollowed());
+                    dbHandler.updateUser(user);
+                    btnFollow.setText(user.isFollowed() ? "Unfollow" : "Follow");
+                    Toast.makeText(MainActivity.this, user.isFollowed() ? "Followed" : "Unfollowed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Handle the case when user is null
+            Toast.makeText(this, "User data not found", Toast.LENGTH_LONG).show();
+        }
     }
+    private User getUserFromDatabase() {
+        // Implement the logic to retrieve the user from the database or intent
+        // Example:
+        // int userId = getIntent().getIntExtra("USER_ID", -1);
+        // return dbHandler.getUserById(userId);
+        return new User("John Doe", "admin", 1, true); // Replace this with actual implementation
+    }
+
 }

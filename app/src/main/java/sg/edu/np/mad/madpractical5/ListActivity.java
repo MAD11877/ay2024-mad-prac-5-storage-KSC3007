@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
+    ArrayList<User> myUserList;
+    UserDBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +27,35 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
 
+        dbHandler = new UserDBHandler(this, null, null, 1);
+        myUserList = new ArrayList<>(); // Initialize myUserList
+
+        // Generate and populate database if empty
+        if (dbHandler.getUsers().isEmpty()) {
+            generateUserData();
+            populateDatabase();
+        }
+
+        myUserList = dbHandler.getUsers();  // Retrieve users from the database
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView1);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        UserAdapter userAdapter = new UserAdapter(this, myUserList);  // Pass context and user list
+        recyclerView.setAdapter(userAdapter);
+    }
 
-        ArrayList<sg.edu.np.mad.madpractical5.User> myUserList = new ArrayList<>();
-
-        for (int i = 0; i < 20; i++) {  // Fixed the loop to iterate correctly
+    private void generateUserData() {
+        for (int i = 0; i < 20; i++) {
             int nameRandomNo = new Random().nextInt(999999999);
             int descRandomNo = new Random().nextInt(999999999);
             boolean followed = new Random().nextBoolean();
-            myUserList.add(new sg.edu.np.mad.madpractical5.User("Name"+String.valueOf(nameRandomNo), "Description "+String.valueOf(descRandomNo), i+1, followed));
+            myUserList.add(new User("Name" + nameRandomNo, "Description " + descRandomNo, i + 1, followed));
         }
+    }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        UserAdapter userAdapter = new UserAdapter(this, myUserList);  // Pass context here
-        recyclerView.setAdapter(userAdapter);
-
+    private void populateDatabase() {
+        for (User user : myUserList) {
+            dbHandler.addUser(user);
+        }
     }
 }

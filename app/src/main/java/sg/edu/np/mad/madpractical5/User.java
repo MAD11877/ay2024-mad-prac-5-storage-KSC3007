@@ -16,7 +16,7 @@ public class User implements Serializable {
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
 
-    public Boolean getFollowed() {return followed;}
+    public Boolean isFollowed() {return followed;}
     public void setFollowed(Boolean followed) {this.followed = followed;}
 
     public User(String name, String description, int id, boolean followed) {
