@@ -14,7 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-    private UserDBHandler dbHandler;
+    private DatabaseHandler dbHandler;
     private User user;
 
     @Override
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        dbHandler = new UserDBHandler(this, null, null, 1);
+        dbHandler = new DatabaseHandler(this, null, null, 1);
 
         TextView tvName = findViewById(R.id.tvName);
         TextView tvDescription = findViewById(R.id.tvDescription);

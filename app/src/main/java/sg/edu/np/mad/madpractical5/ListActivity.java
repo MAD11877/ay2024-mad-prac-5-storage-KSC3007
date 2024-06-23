@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
     ArrayList<User> myUserList;
-    UserDBHandler dbHandler;
+    DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
 
-        dbHandler = new UserDBHandler(this, null, null, 1);
+        dbHandler = new DatabaseHandler(this, null, null, 1);
 
         myUserList = new ArrayList<>(); // Initialize myUserList
         // Generate and populate database if empty
